@@ -8,7 +8,8 @@ Created on Tue Dec 19 11:03:06 2023
 import numpy as np
 import cv2 as cv
 from matplotlib import pyplot as plt
-img = cv.imread('histeq_numpy1.jpg', cv.IMREAD_GRAYSCALE)
+
+img = cv.imread('moon2.jpg', cv.IMREAD_GRAYSCALE)
 assert img is not None, "file could not be read, check with os.path.exists()"
 hist,bins = np.histogram(img.flatten(),256,[0,256])
 cdf = hist.cumsum()
@@ -19,8 +20,23 @@ plt.xlim([0,256])
 plt.legend(('cdf','histogram'), loc = 'upper left')
 plt.show()
 
-img = cv.imread('histeq_numpy1.jpg', cv.IMREAD_GRAYSCALE)
+img = cv.imread('moon.jpg', cv.IMREAD_GRAYSCALE)
 assert img is not None, "file could not be read, check with os.path.exists()"
 equ = cv.equalizeHist(img)
 res = np.hstack((img,equ)) #stacking images side-by-side
-cv.imwrite('res.png',res)
+cv.imwrite('res2.png',res)
+
+img2 = cdf[img]
+
+# Plot the original and equalized images side by side
+plt.figure(figsize=(8, 4))
+
+plt.subplot(1, 2, 1)
+plt.imshow(img, cmap='gray')
+plt.title('Original Image')
+
+plt.subplot(1, 2, 2)
+plt.imshow(equ, cmap='gray')
+plt.title('Equalized Image')
+
+plt.show()
